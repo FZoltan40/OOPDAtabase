@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OOPDatabase
 {
@@ -10,6 +6,16 @@ namespace OOPDatabase
     {
         static void Main(string[] args)
         {
+            Console.Write("Kérem az adatbázis nevét: ");
+            string dbName = Console.ReadLine();
+
+            Console.Write("Kérem a felhasználó nevét: ");
+            string userName = Console.ReadLine();
+
+            Console.Write("Kérem a felhasználó jelszavát: ");
+            string userPass = Console.ReadLine();
+
+            Connect c = new Connect(dbName, userName, userPass);
         }
     }
 }
