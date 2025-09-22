@@ -43,13 +43,28 @@ namespace OOPDatabase
             sqlStatements.AddNewRecord(book);
              */
 
+            /*Feladat4
             Console.Write("Kérem a törlendő rekord id-t:");
-            Console.WriteLine(sqlStatements.DeleteRecord(int.Parse(Console.ReadLine())));
+            Console.WriteLine(sqlStatements.DeleteRecord(int.Parse(Console.ReadLine())));*/
 
+            Console.Write("Kérem a könyv id-t:");
+            int id = int.Parse(Console.ReadLine());
+            Console.Write("Kérem a könyv címét:");
+            string cim = Console.ReadLine();
+            Console.Write("Kérem a könyv szerzőjét:");
+            string szerzo = Console.ReadLine();
+            Console.Write("Kérem a könyv kiadási dátumát:");
+            string datum = Console.ReadLine();
 
+            var book = new
+            {
+                Title = cim,
+                Author = szerzo,
+                Release = datum
 
+            };
 
-
+            Console.WriteLine(sqlStatements.UpdateRecord(id, book));
 
         }
     }
