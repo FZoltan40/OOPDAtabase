@@ -17,7 +17,7 @@ namespace OOPDatabase
             }*/
 
             /*Feladat2
-            Console.Write("Kérem a rejord id-t: ");
+            Console.Write("Kérem a rekord id-t: ");
 
             var item = sqlStatements.GetById(int.Parse(Console.ReadLine()));
 
@@ -25,6 +25,7 @@ namespace OOPDatabase
 
             Console.WriteLine($"{book[1].Name} = {book[1].GetValue(item)}");*/
 
+            /*Feladat3
             Console.Write("Kérem a könyv címét:");
             string cim = Console.ReadLine();
             Console.Write("Kérem a könyv szerzőjét:");
@@ -39,8 +40,12 @@ namespace OOPDatabase
                 Release = datum
 
             };
-
             sqlStatements.AddNewRecord(book);
+             */
+
+            Console.Write("Kérem a törlendő rekord id-t:");
+            Console.WriteLine(sqlStatements.DeleteRecord(int.Parse(Console.ReadLine())));
+
 
 
 
