@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OOPDatabase.Services;
+using System;
 
 namespace OOPDatabase
 {
@@ -6,16 +7,27 @@ namespace OOPDatabase
     {
         static void Main(string[] args)
         {
-            Console.Write("Kérem az adatbázis nevét: ");
-            string dbName = Console.ReadLine();
+            ISqlStatements sqlStatements = new TableBooks();
 
-            Console.Write("Kérem a felhasználó nevét: ");
-            string userName = Console.ReadLine();
+            /*Feladat1
+            foreach (var item in sqlStatements.GetAllBooks())
+            {
+                var book = item.GetType().GetProperties();
+                Console.WriteLine($"{book[0].Name} = {book[0].GetValue(item)}, {book[1].Name} = {book[1].GetValue(item)}");
+            }*/
 
-            Console.Write("Kérem a felhasználó jelszavát: ");
-            string userPass = Console.ReadLine();
+            //Feladat2
+            Console.Write("Kérem a rejord id-t: ");
 
-            Connect c = new Connect(dbName, userName, userPass);
+            var item = sqlStatements.GetById(int.Parse(Console.ReadLine()));
+
+            var book = item.GetType().GetProperties();
+
+            Console.WriteLine($"{book[1].Name} = {book[1].GetValue(item)}");
+
+
+
+
         }
     }
 }
