@@ -5,7 +5,31 @@ namespace OOPDatabase.Services
 {
     internal class TableBooks : ISqlStatements
     {
-        public List<object> GetAllBooks()
+        public object AddNewRecord(object newBook)
+        {
+            Connect conn = new Connect("library");
+
+            conn.Connection.Open();
+
+            string sql = "INSERT INTO `books`(`title`, `author`, `releaseDate`) VALUES (@title,@author,@release)";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
+
+            var book = newBook.GetType().GetProperties();
+
+            cmd.Parameters.AddWithValue("@title", book[0].GetValue(newBook));
+            cmd.Parameters.AddWithValue("@author", book[1].GetValue(newBook));
+            cmd.Parameters.AddWithValue("@release", book[2].GetValue(newBook));
+
+            cmd.ExecuteNonQuery();
+
+            conn.Connection.Close();
+
+            return book;
+
+        }
+
+        public List<object> GetAllRecords()
         {
             List<object> result = new List<object>();
 

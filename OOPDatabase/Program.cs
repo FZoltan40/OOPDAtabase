@@ -10,7 +10,7 @@ namespace OOPDatabase
             ISqlStatements sqlStatements = new TableBooks();
 
             /*Feladat1
-            foreach (var item in sqlStatements.GetAllBooks())
+            foreach (var item in sqlStatements.GetAllRecords())
             {
                 var book = item.GetType().GetProperties();
                 Console.WriteLine($"{book[0].Name} = {book[0].GetValue(item)}, {book[1].Name} = {book[1].GetValue(item)}");
