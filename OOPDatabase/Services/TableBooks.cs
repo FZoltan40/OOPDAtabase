@@ -5,36 +5,33 @@ namespace OOPDatabase.Services
 {
     internal class TableBooks : ISqlStatements
     {
-        public object AddNewRecord(object newBook)
+        Connect conn = new Connect();
+        public object AddNewRecord(object newRecord, string tableName)
         {
-            Connect conn = new Connect("library");
-
             conn.Connection.Open();
 
-            string sql = "INSERT INTO `books`(`title`, `author`, `releaseDate`) VALUES (@title,@author,@release)";
+            string sql = $"INSERT INTO {tableName} (`title`, `author`, `releaseDate`) VALUES (@title,@author,@release)";
 
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
 
-            var book = newBook.GetType().GetProperties();
+            var record = newRecord.GetType().GetProperties();
 
-            cmd.Parameters.AddWithValue("@title", book[0].GetValue(newBook));
-            cmd.Parameters.AddWithValue("@author", book[1].GetValue(newBook));
-            cmd.Parameters.AddWithValue("@release", book[2].GetValue(newBook));
+            cmd.Parameters.AddWithValue("@title", record[0].GetValue(newRecord));
+            cmd.Parameters.AddWithValue("@author", record[1].GetValue(newRecord));
+            cmd.Parameters.AddWithValue("@release", record[2].GetValue(newRecord));
 
             cmd.ExecuteNonQuery();
 
             conn.Connection.Close();
 
-            return book;
+            return record;
 
         }
-        public object DeleteRecord(int id)
+        public object DeleteRecord(int id, string table)
         {
-            Connect conn = new Connect("library");
-
             conn.Connection.Open();
 
-            string sql = "DELETE FROM books WHERE id = @id";
+            string sql = $"DELETE FROM {table} WHERE id = @id";
 
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
 
@@ -46,18 +43,17 @@ namespace OOPDatabase.Services
 
             return new { Message = "Sikeres törlés" };
         }
-
-        public List<object> GetAllRecords()
+        public List<object> GetAllRecords(string tableName)
         {
             List<object> result = new List<object>();
 
-            Connect conn = new Connect("library");
-
             conn.Connection.Open();
 
-            string sql = "SELECT * FROM books";
+            string sql = $"SELECT * FROM {tableName}";
 
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
+
+            //cmd.Parameters.AddWithValue("@tableName", tableName);
 
             MySqlDataReader dr = cmd.ExecuteReader();
 
@@ -65,15 +61,15 @@ namespace OOPDatabase.Services
 
             while (dr.Read())
             {
-                var book = new
+                var record = new
                 {
-                    Id = dr.GetInt32("id"),
-                    Title = dr.GetString("title"),
-                    Author = dr.GetString("author"),
-                    Release = dr.GetDateTime("releaseDate")
+                    Column1 = dr.GetBodyDefinition(dr.GetName(0)),
+                    Column2 = dr.GetBodyDefinition(dr.GetName(1)),
+                    Column3 = dr.GetBodyDefinition(dr.GetName(2)),
+                    Column4 = dr.GetBodyDefinition(dr.GetName(3)),
                 };
 
-                result.Add(book);
+                result.Add(record);
             }
 
             conn.Connection.Close();
@@ -81,13 +77,11 @@ namespace OOPDatabase.Services
             return result;
         }
 
-        public object GetById(int id)
+        public object GetById(int id, string table)
         {
-            Connect conn = new Connect("library");
-
             conn.Connection.Open();
 
-            string sql = "SELECT * FROM books WHERE id = @id ";
+            string sql = $"SELECT * FROM {table} WHERE id = @id ";
 
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
             cmd.Parameters.AddWithValue("@id", id);
@@ -96,35 +90,32 @@ namespace OOPDatabase.Services
 
             dr.Read();
 
-            var book = new
+            var record = new
             {
-                Id = dr.GetInt32("id"),
-                Title = dr.GetString("title"),
-                Author = dr.GetString("author"),
-                Release = dr.GetDateTime("releaseDate")
-
+                Column1 = dr.GetBodyDefinition(dr.GetName(0)),
+                Column2 = dr.GetBodyDefinition(dr.GetName(1)),
+                Column3 = dr.GetBodyDefinition(dr.GetName(2)),
+                Column4 = dr.GetBodyDefinition(dr.GetName(3)),
             };
 
             conn.Connection.Close();
 
-            return book;
+            return record;
         }
 
-        public object UpdateRecord(int id, object updateBook)
+        public object UpdateRecord(int id, object updateBook, string table)
         {
-            Connect conn = new Connect("library");
-
             conn.Connection.Open();
 
-            string sql = "UPDATE `books` SET `title`=@title,`author`=@author,`releaseDate`=@release WHERE id = @id";
+            string sql = $"UPDATE {table} SET `title`=@title,`author`=@author,`releaseDate`=@release WHERE id = @id";
 
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
 
-            var book = updateBook.GetType().GetProperties();
+            var record = updateBook.GetType().GetProperties();
             cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@title", book[0].GetValue(updateBook));
-            cmd.Parameters.AddWithValue("@author", book[1].GetValue(updateBook));
-            cmd.Parameters.AddWithValue("@release", book[2].GetValue(updateBook));
+            cmd.Parameters.AddWithValue("@title", record[0].GetValue(updateBook));
+            cmd.Parameters.AddWithValue("@author", record[1].GetValue(updateBook));
+            cmd.Parameters.AddWithValue("@release", record[2].GetValue(updateBook));
 
             cmd.ExecuteNonQuery();
 

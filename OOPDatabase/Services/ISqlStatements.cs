@@ -4,10 +4,10 @@ namespace OOPDatabase.Services
 {
     internal interface ISqlStatements
     {
-        List<object> GetAllRecords();
-        object GetById(int id);
-        object AddNewRecord(object newRecord);
-        object DeleteRecord(int id);
-        object UpdateRecord(int id, object updateRecord);
+        List<object> GetAllRecords(string tableName);
+        object GetById(int id, string table);
+        object AddNewRecord(object newRecord, string tableName);
+        object DeleteRecord(int id, string table);
+        object UpdateRecord(int id, object updateRecord, string table);
     }
 }
